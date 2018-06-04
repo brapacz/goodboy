@@ -1,0 +1,13 @@
+#!/usr/bin/env ruby
+
+require "bundler/setup"
+require 'goodboy'
+
+begin
+  puts Goodboy.run(ARGV[0])
+rescue => error
+  STDERR.puts error.message
+  STDERR.puts error.backtrace if Goodboy.debug?
+  exit 1
+end
+
