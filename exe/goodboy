@@ -5,9 +5,11 @@ require 'goodboy'
 
 begin
   puts Goodboy.run(ARGV[0])
+  Goodboy.debug { puts "no exception, exerything is allright" }
+  exit 0
 rescue => error
   STDERR.puts error.message
-  STDERR.puts error.backtrace if Goodboy.debug?
+  Goodboy.debug { STDERR.puts error.backtrace }
   exit 1
 end
 

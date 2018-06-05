@@ -3,6 +3,7 @@ end
 
 require 'goodboy/version'
 require 'goodboy/errors'
+require 'goodboy/config'
 require 'goodboy/helpers'
 require 'goodboy/command_handler'
-require 'goodboy/commands/bump'
+require 'goodboy/commands/release'
