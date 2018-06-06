@@ -5,6 +5,7 @@ module Goodboy
     def initialize(**options)
       @project_name = options[:project_name] # Optionally override project name.
       @content = options[:content] # Option to not read from actual file on disk.
+      puts "project_name: #{@project_name.inspect}"
       super(options)
     end
 
