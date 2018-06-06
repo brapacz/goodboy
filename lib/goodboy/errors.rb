@@ -6,5 +6,8 @@ module Goodboy
   end
 
   MissingCommandError = Class.new(StandardError)
+  MissingArgError = Class.new(StandardError)
   NoChangesError = Class.new(StandardError)
+  CurrentChangeFileAlreadyExistsError = Class.new(StandardError)
+  CurrentChangeFileNotExistsError = Class.new(StandardError)
 end

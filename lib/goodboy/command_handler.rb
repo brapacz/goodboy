@@ -1,7 +1,7 @@
 module Goodboy
   class CommandHandler
-    def handle(command_name, config: Config.new)
-      find_command!(command_name).new(config: config).run!
+    def handle(command_name, config: Config.new, argv: )
+      find_command!(command_name).new(config: config, argv: argv).run!
     end
 
     private

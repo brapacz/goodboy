@@ -5,7 +5,7 @@ require 'date'
 module Goodboy
   module Commands
     class Release
-      def initialize(git: Git.new, date: Date.today, config: Config.new)
+      def initialize(git: Git.new, date: Date.today, config: Config.new, **)
         @git = git
         @date = date
         @config = config
@@ -13,14 +13,15 @@ module Goodboy
 
       def run!
         # check if `git status` returns "nothing to commit"
-        git.ensure_clean!
+        @git.ensure_clean!
+
+        # read previous change
+        raise CurrentChangeFileNotExistsError unless File.exists? @config.current_change_file
+        current_change = Change.parse(File.read(@config.current_change_file, 'r'))
 
         # read current change
         previous_release = @git.last_release_tag
         previous_change = Change.parse(@git.read_file(@config.current_change_file, revision: previous_release))
-
-        # read previous change
-        current_change = Change.parse(File.read(@config.current_change_file, 'r'))
         # no changes in changelog
         raise NoChangesError if previous_change == current_change
 
@@ -33,16 +34,15 @@ module Goodboy
         version_file.bump!
 
         # add version and changelog to commit, commit & push
-        git.commit do |commit|
-          commit.add_file(version_file.filename)
-          commit.add_file(@config.changelog_file)
-          commit.push release_message(
-            date: date,
-            version: version_file.new_numer
-          )
-        end
+        @git.add_file!(version_file.filename)
+        @git.add_file!(@config.changelog_file)
+        @git.commit! release_message(
+          date: date,
+          version: version_file.new_numer
+        )
+        @git.push!
       rescue => e
-        git.revert!
+        @git.reset! unless Git::NotCleanError
         raise
       end
     end

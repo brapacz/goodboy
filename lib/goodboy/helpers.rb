@@ -1,7 +1,7 @@
 module Goodboy
   class << self
-    def run(command)
-      CommandHandler.new.handle(command)
+    def run(command, *argv, **options)
+      CommandHandler.new.handle(command, argv: argv, **options)
     end
 
     def debug?

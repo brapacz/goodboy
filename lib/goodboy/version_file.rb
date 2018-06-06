@@ -1,3 +1,5 @@
+require 'gem_release'
+
 module Goodboy
   class VersionFile < GemRelease::VersionFile
     def initialize(**options)

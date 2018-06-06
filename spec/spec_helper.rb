@@ -13,7 +13,7 @@
 # it.
 #
 
-require 'goodboy'
+require 'pry'
 
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 RSpec.configure do |config|
@@ -101,3 +101,20 @@ RSpec.configure do |config|
   Kernel.srand config.seed
 =end
 end
+
+require 'aruba/rspec'
+
+RSpec.configure do |config|
+  config.include ArubaDoubles
+
+  config.before :each do
+    Aruba::RSpec.setup
+  end
+
+  config.after :each do
+    Aruba::RSpec.teardown
+  end
+end
+
+require 'goodboy'
+
